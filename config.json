@@ -1,0 +1,6 @@
+{
+	"gameboardTitle": "WacMan",
+	"gameboardHeight": 10,
+	"gameboardWidth" : 10,
+	"imageGround" : "background.png"
+}
