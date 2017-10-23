@@ -1,4 +1,3 @@
-import wacman.Ghost
 import wacman.*
 
 program wakman {
@@ -21,7 +20,14 @@ program wakman {
 		new Cherry(new Position(9, 6))
 	]
 	
-	ghosts.forEach{g => g.posicion().drawElement(g)}
+	
+	ghosts.forEach{g =>
+		const movement = new GhostMovement(g.posicion())
+		g.posicion().drawElement(movement) 
+		game.whenCollideDo(movement, { ghost => movement.move(ghost) })
+		g.posicion().drawElement(g)
+	}
+	
 	cherries.forEach{g => g.posicion().drawElement(g)}
 	wakman.posicion().drawCharacter(wakman)
 	

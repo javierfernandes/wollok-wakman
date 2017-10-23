@@ -96,5 +96,26 @@ object wakman inherits Posicionable(new Position(5, 5)) {
 		mode.hittedWithGhost(self, ghost)	
 	}
 	
-	method isSuper() = mode == [wakmanSuperMode].head()
+	method isSuper() = [wakmanSuperMode].contains(mode)
+}
+
+class GhostMovement {
+	var timeCounter = 0
+	var move = 1
+	const posicion
+	
+	constructor(p) { posicion = p }
+	
+	method move(ghost) {
+		timeCounter++
+		if (timeCounter > 40) {			
+			posicion.moveRight(move)
+			move = -move
+			timeCounter = 0
+		}
+	}
+	
+	method hittedWithWakman(wak) { }
+	
+	method image() = "ground.png"
 }
