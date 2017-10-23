@@ -3,23 +3,24 @@ import wacman.*
 
 program wakman {
 	
-	val ghosts = #[
+	const ghosts = [
 		new Ghost(new Position(5, 1), pink),
 		new Ghost(new Position(3, 3), red),
 		new Ghost(new Position(4, 4), orange),
 		new Ghost(new Position(8, 8), cyan)
 	]
-	val cherries = #[
+	
+	
+	const cherries = [
 		new Cherry(new Position(2, 2)),
 		new Cherry(new Position(9, 6))
 	]
 	
-	ghosts.forEach[g| g.getPosicion().drawElement(g)]
-	cherries.forEach[g| g.getPosicion().drawElement(g)]
-	wakman.getPosicion().drawCharacter(wakman)
+	ghosts.forEach{g => g.posicion().drawElement(g)}
+	cherries.forEach{g => g.posicion().drawElement(g)}
+	wakman.posicion().drawCharacter(wakman)
 	
-	wgame.whenCollideDo(wakman, [ something | wakman.hittedWith(something) ])
+	game.whenCollideDo(wakman, { something => wakman.hittedWith(something) })
 	
-	wgame.start()
-	
+	game.start()	
 }
