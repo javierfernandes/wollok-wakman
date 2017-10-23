@@ -48,9 +48,9 @@ class Cherry inherits Posicionable {
 object wakmanRegularMode {
 	method hittedWithGhost(wak, ghost) {
 		// you loose !
+		game.say(wak, "You loose!")
 		wak.posicion().x(5)
 		wak.posicion().y(5)
-		//wak.say("You loose!")
 	}
 }
 
@@ -88,7 +88,7 @@ object wakman inherits Posicionable(new Position(5, 5)) {
 	}
 	method eatCherry(cherry) {
 		mode = wakmanSuperMode
-		// TODO: remove the cherry!
+		// game.removeVisual(cherry) TODO: Not Safe!
 		cherry.posicion().x(-1)
 		cherry.posicion().y(-1)
 	}

@@ -3,6 +3,11 @@ import wacman.*
 
 program wakman {
 	
+	game.title("Wakman")
+	game.width(10)
+	game.height(10)
+	game.ground("ground.png")
+	
 	const ghosts = [
 		new Ghost(new Position(5, 1), pink),
 		new Ghost(new Position(3, 3), red),

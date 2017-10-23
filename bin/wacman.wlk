@@ -1,29 +1,29 @@
 class Posicionable {
 	var posicion
-	new(p) { posicion = p }
+	constructor(p) { posicion = p }
 	
-	method getPosicion() = posicion
-	method setPosicion(_posicion) { posicion = _posicion }
+	method posicion() = posicion
+	method posicion(_posicion) { posicion = _posicion }
 }
 
 class Ghost inherits Posicionable {
 	var color
 	
-	new(_posicion, _color) = super(_posicion) {
+	constructor(_posicion, _color) = super(_posicion) {
 		color = _color
 	}
-	method getImagen() = if (wakman.isSuper())
+	method imagen() = if (wakman.isSuper())
 							"ghost-scared.png"
 						else 
 							"ghost-" + color.getName() + ".png"
 	
 	method hittedWithWakman(wakman) {
-		wakman.hittedWithGhost(this)
+		wakman.hittedWithGhost(self)
 	}
 	
 	method eaten() {
-		this.getPosicion().setX(-1)
-		this.getPosicion().setY(-1)
+		self.posicion().x(-1)
+		self.posicion().y(-1)
 	}
 }
 
@@ -37,20 +37,20 @@ class Ghost inherits Posicionable {
 
 
 class Cherry inherits Posicionable {
-	new(_position) = super(_position)
-	method getImagen() = "cherry.png"
+	constructor(_position) = super(_position)
+	method imagen() = "cherry.png"
 	
 	method hittedWithWakman(wak) {
-		wak.eatCherry(this)
+		wak.eatCherry(self)
 	}
 }
 
 object wakmanRegularMode {
 	method hittedWithGhost(wak, ghost) {
 		// you loose !
-		wak.getPosicion().setX(5)
-		wak.getPosicion().setY(5)
-		//wak.say("You loose!")
+		game.say(wak, "You loose!")
+		wak.posicion().x(5)
+		wak.posicion().y(5)
 	}
 }
 
@@ -65,9 +65,9 @@ object wakman inherits Posicionable(new Position(5, 5)) {
 	var imageCounter = 0
 	var modeCounter = 0
 	
-	method getImagen() = {
+	method imagen() {
 		modeCounter++
-		this.checkMode()
+		self.checkMode()
 		imageCounter++
 		if (imageCounter > 10) {
 			if (imageCounter == 20) imageCounter = 0
@@ -84,16 +84,17 @@ object wakman inherits Posicionable(new Position(5, 5)) {
 	} 
 	
 	method hittedWith(something) {
-		something.hittedWithWakman(this)	
+		something.hittedWithWakman(self)	
 	}
 	method eatCherry(cherry) {
 		mode = wakmanSuperMode
-		// TODO: remove the cherry!
-		cherry.getPosicion().setX(-1)
-		cherry.getPosicion().setY(-1)
+		// game.removeVisual(cherry) TODO: Not Safe!
+		cherry.posicion().x(-1)
+		cherry.posicion().y(-1)
 	}
 	method hittedWithGhost(ghost) {
-		mode.hittedWithGhost(this, ghost)	
+		mode.hittedWithGhost(self, ghost)	
 	}
-	method isSuper() = mode == wakmanSuperMode
+	
+	method isSuper() = mode == [wakmanSuperMode].head()
 }
