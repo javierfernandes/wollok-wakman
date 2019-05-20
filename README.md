@@ -1,4 +1,7 @@
 # wollok-wakman
+ 
+[![Build Status](https://travis-ci.org/wollok/wollokWakman.svg?branch=master)](https://travis-ci.org/wollok/wollokWakman)
+
 A pac-man like minigame for wollok-game
 
 Here are some screenshots
