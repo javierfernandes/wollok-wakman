@@ -1,18 +1,14 @@
+import wollok.game.*
+
 class Posicionable {
-	var posicion
-	constructor(p) { posicion = p }
+	var property position
 	
-	method posicion() = posicion
-	method posicion(_posicion) { posicion = _posicion }
 }
 
 class Ghost inherits Posicionable {
 	var color
 	
-	constructor(_posicion, _color) = super(_posicion) {
-		color = _color
-	}
-	method imagen() = if (wakman.isSuper())
+	method image() = if (wakman.isSuper())
 							"ghost-scared.png"
 						else 
 							"ghost-" + color.getName() + ".png"
@@ -22,8 +18,10 @@ class Ghost inherits Posicionable {
 	}
 	
 	method eaten() {
-		self.posicion().x(-1)
-		self.posicion().y(-1)
+//		position = game.at(-1,-1)
+//		self.posicion().x(-1)
+//		self.posicion().y(-1)
+		game.removeVisual(self)
 	}
 }
 
@@ -37,8 +35,7 @@ class Ghost inherits Posicionable {
 
 
 class Cherry inherits Posicionable {
-	constructor(_position) = super(_position)
-	method imagen() = "cherry.png"
+	method image() = "cherry.png"
 	
 	method hittedWithWakman(wak) {
 		wak.eatCherry(self)
@@ -49,8 +46,9 @@ object wakmanRegularMode {
 	method hittedWithGhost(wak, ghost) {
 		// you loose !
 		game.say(wak, "You loose!")
-		wak.posicion().x(5)
-		wak.posicion().y(5)
+//		wak.posicion().x(5)
+//		wak.posicion().y(5)
+		wak.position(game.at(5,5))
 	}
 }
 
@@ -60,15 +58,15 @@ object wakmanSuperMode {
 	}
 }
 
-object wakman inherits Posicionable(new Position(5, 5)) {
+object wakman inherits Posicionable(position = game.at(5, 5)) {
 	var mode = wakmanRegularMode
 	var imageCounter = 0
 	var modeCounter = 0
 	
-	method imagen() {
-		modeCounter++
+	method image() {
+		modeCounter+=1
 		self.checkMode()
-		imageCounter++
+		imageCounter+=1
 		if (imageCounter > 10) {
 			if (imageCounter == 20) imageCounter = 0
 			return "wakman-closed.png"
@@ -88,9 +86,11 @@ object wakman inherits Posicionable(new Position(5, 5)) {
 	}
 	method eatCherry(cherry) {
 		mode = wakmanSuperMode
-		// game.removeVisual(cherry) TODO: Not Safe!
-		cherry.posicion().x(-1)
-		cherry.posicion().y(-1)
+		game.removeVisual(cherry) //TODO: Not Safe!
+//		cherry.posicion().x(-1)
+//		cherry.posicion().y(-1)
+//		cherry.position(game.at(-1,-1))
+
 	}
 	method hittedWithGhost(ghost) {
 		mode.hittedWithGhost(self, ghost)	
@@ -102,14 +102,12 @@ object wakman inherits Posicionable(new Position(5, 5)) {
 class GhostMovement {
 	var timeCounter = 0
 	var move = 1
-	const posicion
-	
-	constructor(p) { posicion = p }
+	var property position
 	
 	method move(ghost) {
-		timeCounter++
+		timeCounter+=1
 		if (timeCounter > 40) {			
-			posicion.moveRight(move)
+			position = position.right(move)
 			move = -move
 			timeCounter = 0
 		}

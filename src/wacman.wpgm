@@ -1,3 +1,4 @@
+import wollok.game.*
 import wacman.*
 
 program wakman {
@@ -8,28 +9,28 @@ program wakman {
 	game.ground("ground.png")
 	
 	const ghosts = [
-		new Ghost(new Position(5, 1), pink),
-		new Ghost(new Position(3, 3), red),
-		new Ghost(new Position(4, 4), orange),
-		new Ghost(new Position(8, 8), cyan)
+		new Ghost(position = game.at(5, 1), color = pink),
+		new Ghost(position = game.at(3, 3), color = red),
+		new Ghost(position = game.at(4, 4), color = orange),
+		new Ghost(position = game.at(8, 8), color = cyan)
 	]
 	
 	
 	const cherries = [
-		new Cherry(new Position(2, 2)),
-		new Cherry(new Position(9, 6))
+		new Cherry(position = game.at(2, 2)),
+		new Cherry(position = game.at(9, 6))
 	]
 	
 	
 	ghosts.forEach{g =>
-		const movement = new GhostMovement(g.posicion())
-		g.posicion().drawElement(movement) 
+		const movement = new GhostMovement(position = g.position())
+		g.position().drawElement(movement) 
 		game.whenCollideDo(movement, { ghost => movement.move(ghost) })
-		g.posicion().drawElement(g)
+		g.position().drawElement(g)
 	}
 	
-	cherries.forEach{g => g.posicion().drawElement(g)}
-	wakman.posicion().drawCharacter(wakman)
+	cherries.forEach{g => g.position().drawElement(g)}
+	wakman.position().drawCharacter(wakman)
 	
 	game.whenCollideDo(wakman, { something => wakman.hittedWith(something) })
 	
